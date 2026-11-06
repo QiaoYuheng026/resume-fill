@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>网申轻填 · 本地简历助手</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="app-header">
+      <div class="brand-mark" aria-hidden="true">填</div>
+      <div><h1>网申轻填</h1><p>准备一次，少填很多次。</p></div>
+      <span class="local-badge"><span></span>仅在本机</span>
+    </header>
+    <div class="top-note">简历不上传服务器 · 由你选择填写内容</div>
+    <nav class="tabs" aria-label="功能切换">
+      <button class="tab active" id="profile-tab" type="button" aria-pressed="true">01 <span>我的资料</span><i id="saved-dot"></i></button>
+      <button class="tab" id="fill-tab" type="button" aria-pressed="false">02 <span>网页预填</span><span id="field-count" class="count-badge">0</span></button>
+    </nav>
+    <div id="notice" class="notice hidden" role="status" aria-live="polite"></div>
+    <section id="profile-view" class="view">
+      <div class="section-intro"><div><h2>把简历变成可用的资料</h2><p>导入后检查一次，之后随时选用。</p></div><span class="step-tag">开始准备</span></div>
+      <label class="import-card" id="drop-zone" for="resume-file">
+        <span class="upload-icon" aria-hidden="true">↑</span><strong>选择或拖入你的简历</strong><span>PDF / Word (.docx) / TXT / JSON · 最大 20 MB</span>
+        <input id="resume-file" type="file" accept=".pdf,.docx,.txt,.md,.json" class="visually-hidden">
+      </label>
+      <div class="import-status" id="import-status">文字型 PDF 可提取；图片扫描版请粘贴文字。</div>
+      <details class="paste-box"><summary>也可以粘贴简历文字</summary><label for="resume-text" class="field-label">原始简历文字</label><textarea id="resume-text" rows="6" placeholder="在这里粘贴简历内容，再点击提取。"></textarea><button id="parse-text" class="button secondary small" type="button">从文字提取</button></details>
+      <div class="editor-heading"><h2>核对个人资料</h2><span id="profile-state">尚未保存</span></div>
+      <p class="helper">提取结果可能不完整。未提供的信息请留空，多段经历可以分别添加。</p>
+      <div id="profile-editor"></div>
+      <div class="save-bar"><button id="save-profile" class="button primary" type="button">确认并保存资料</button><button id="go-fill" class="button secondary" type="button">去预填 →</button></div>
+      <div class="utility-actions"><button id="export-profile" class="text-button" type="button">导出备份</button><button id="load-sample" class="text-button" type="button">载入示例资料</button><button id="clear-profile" class="text-button danger" type="button">清除本机资料</button></div>
+    </section>
+    <section id="fill-view" class="view hidden">
+      <div class="section-intro"><div><h2>看清楚，再填进去</h2><p>读取当前页，为每个字段选择资料。</p></div><span class="step-tag">选择预填</span></div>
+      <div class="scan-card"><div class="scan-icon" aria-hidden="true">⌕</div><div><strong id="page-title">打开一个网申表单</strong><span id="page-subtitle">每到新的一页，重新识别一次。</span></div><button id="scan-page" class="button primary small" type="button">识别网页</button></div>
+      <div id="page-access-card" class="page-access-card hidden"><strong>连接当前招聘网站</strong><p id="page-access-message"></p><button id="grant-page-access" class="button primary small" type="button">允许访问当前网站</button><small>仅授权下方显示的网站，之后可在扩展设置中撤销。</small></div>
+      <div id="scan-warnings" class="warning-list hidden"></div>
+      <div class="preview-controls"><span id="selection-count">尚未识别字段</span><button id="select-reliable" class="text-button" type="button">选中建议项</button><button id="deselect-all" class="text-button" type="button">取消全选</button></div>
+      <label class="overwrite-option"><input id="allow-overwrite" type="checkbox">允许覆盖网页已有内容<span>默认保留已填写的字段</span></label>
+      <div id="field-list"><div class="empty-state"><span class="empty-icon" aria-hidden="true">▤</span><h3>等待识别当前网页</h3><p>识别后可以替换匹配的资料、编辑预填值，<br>再勾选需要填入的字段。</p></div></div>
+      <div class="fill-bar"><div><strong id="fill-summary">由你决定填哪些</strong><span>不点击提交，不自动跳到下一页。</span></div><div class="fill-actions"><button id="copy-selected" class="button secondary" type="button" disabled>复制已选</button><button id="fill-selected" class="button primary" type="button" disabled>填入已选</button></div></div>
+    </section>
+    <footer class="app-footer"><span>LOCAL FIRST · v0.1.2</span><button id="open-demo" class="text-button" type="button">打开练习表单 ↗</button></footer>
+  </main>
+  <aside id="demo-workspace" class="demo-workspace hidden"><div class="demo-topbar"><span>练习模式</span><p>右侧是虚构网申页面，可放心试填。</p></div><iframe id="demo-frame" title="模拟校招网申表单"></iframe></aside>
+  <script src="vendor/jszip.min.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
